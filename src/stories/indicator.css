@@ -1,0 +1,18 @@
+.storybook-Indicator {
+    opacity: 0.4;
+    background-color: rgba(0, 0, 0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: inherit;
+    height: inherit;
+}
+.storybook-Indicator--spinner {
+    width: 200px;
+    height: 200px;
+    flex-shrink: 0;
+    transform: scale(0.2);
+    background-size: cover;
+    background-image: url('./assets/loading-buffering.gif');
+}
