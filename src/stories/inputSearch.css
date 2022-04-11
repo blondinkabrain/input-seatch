@@ -1,0 +1,7 @@
+.storybook-InputSearch{
+    width: inherit;
+}
+/* for inputSearch only*/
+.storybook-InputSearch .storybook-Popup {
+    height: 110px; /*for 5 rows*/
+}

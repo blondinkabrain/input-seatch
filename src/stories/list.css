@@ -1,5 +1,5 @@
 .storybook-List{
-    overflow-y: scroll;
-    width: inherit;
+    overflow-y: auto;
+    width: 100%;
     height: inherit;
 }
