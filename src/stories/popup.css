@@ -1,6 +1,8 @@
 .storybook-Popup{
     position: absolute;
     width: inherit;
+    border: 1px solid black;
+    box-sizing: border-box;
     background-color: white;
 }
 .storybook-Popup__position-left{

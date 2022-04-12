@@ -19,13 +19,26 @@ interface PopupProps {
  * Popup UI component
  */
 export const Popup = ({    position = {horizontal: 'left', vertical:'test'},
+                          target,
                            ...props
                        }: PopupProps) => {
+
+    const rect = target ? target.current.getBoundingClientRect() : {
+        top : 50,
+        width: 150
+    };
+
+    // document.body
+    const popupStyle = {
+        top: rect.top + rect.height,
+        left: rect.left,
+        width: rect.width
+    }
     return (
-        <div
+        <div tabIndex={0}
             className={['storybook-Popup', `storybook-Popup__position-${position?.horizontal}`, `storybook-Popup__position-${position?.vertical}`].join(' ')}
             {...props}
-        > {props.children}
+            style={popupStyle}> {props.children}
         </div>
     );
 };

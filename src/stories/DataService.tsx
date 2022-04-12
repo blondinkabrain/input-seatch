@@ -32,23 +32,26 @@ export default class DataService {
         }
     }
 
-    add(item: IItem) {
-        this.items.push(item);
+    add(caption: string) {
+        this.items.push({
+            id: this.items.length, // no need in guid, 'cause no remove function
+            caption: caption
+        });
     }
 
     public load(filter: string = '', timeout?: number): Promise<object[]> {
         const resolveTimeOut = timeout ?? Math.floor(Math.random() * 3000); // ожидание до 3х секунд
         const filteredItems = this.items.filter((item) => {
-            return item.caption.includes(filter);
+            return item.caption.toLowerCase().includes(filter.toLowerCase());
         });
         if (this._loadingReject) {
-            this._loadingReject(new Error('stop loading'));
+            this._loadingReject(new Error('stopped loading before new load'));
             clearTimeout(this._loadingTimeOut);
+            this._loadingReject = null;
         }
         return new Promise((resolve, reject) => {
             this._loadingReject = reject;
             this._loadingTimeOut = setTimeout(() => {
-                console.log('resolved');
                 this._loadingReject = null;
                 resolve(this.sort(filteredItems));
             }, resolveTimeOut);
