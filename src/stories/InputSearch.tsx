@@ -1,4 +1,4 @@
-import React, {ReactNode, Ref, useEffect, useRef, useState} from 'react';
+import React, {ReactNode, Ref, SyntheticEvent, useEffect, useRef, useState} from 'react';
 import './inputSearch.css';
 import {Popup} from "./Popup";
 import {Indicator} from "./Indicator";
@@ -69,6 +69,15 @@ export const InputSearch = ({
     const onFocus = () => {
         setIsShowPopup(true);
     };
+    const onBlur = (e: SyntheticEvent) => {
+
+        // fixMe find a way  with a ref - trouble with click on another popup
+        // click outside any popup closes opened popup
+        if (!e.relatedTarget?.className?.includes('storybook-Popup')) {
+            setIsShowPopup(false);
+        }
+
+    };
     const onSelectItemListWrapper = (itemId:number) => {
         setIsShowPopup(false); // close popup
         onSelectItem && onSelectItem(itemId);
@@ -80,6 +89,7 @@ export const InputSearch = ({
                    placeholder="Print to search"
                    onChange={onChangeInput}
                    onFocus={onFocus}
+                   onBlur={onBlur}
                    value={value}/>
             <PopupControl isShow={isShowPopup && ((stateItems.length > 0) || stateShowIndicator)}
                           target={inputRef}
@@ -108,7 +118,8 @@ const PopupControl = ({
     return (
         <>
             {props.isShow &&
-                <Popup target={props.target} {...props}>
+                <Popup target={props.target}
+                       className={props.className}>
                     {props.children}
                 </Popup>}
         </>
