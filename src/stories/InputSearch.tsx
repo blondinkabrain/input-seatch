@@ -6,9 +6,18 @@ import {List} from "./List";
 import DataService from "./DataService";
 
 export interface InputSearchProps {
+    /**
+     * From what value.length start search in dataService
+     */
     startSearch?: number;
+    /**
+     * Class for data loading and filtering
+     */
     dataService: DataService;
-    onSelectItem: Function;
+    /**
+     * Optional onSelectItem handler
+     */
+    onSelectItem?: () => void;
 }
 
 interface IndicatorControlProps {
@@ -38,7 +47,9 @@ export const InputSearch = ({
                 setStateItems(items);
                 setStateShowIndicator(false);
             }).catch((e) => {
-                console.log('caught overload', e.message);
+                if (e.message === 'stopped loading before new load') {
+                    console.log('caught overload', e.message);
+                }
             });
         } else {
             setIsActive(false);
