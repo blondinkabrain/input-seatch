@@ -1,5 +1,15 @@
-# Getting Started with Create React App
+# This one goes with [storybook](https://storybook.js.org/docs/react/get-started/install)
 
+## Please read the instruction
+
+### `npm install`
+### `npx sb init` if first time start
+### `npm run storybook`
+
+make sure you run it under Administrator rights
+
+### [enjoy storybook inputSearch page](http://localhost:6006/?path=/docs/example-inputsearch--start-search)
+//-------------
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
