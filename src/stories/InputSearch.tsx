@@ -1,11 +1,11 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {ReactNode, useEffect, useRef, useState} from 'react';
 import './inputSearch.css';
 import {Popup} from "./Popup";
 import {Indicator} from "./Indicator";
 import {List} from "./List";
 import DataService from "./DataService";
 
-interface InputSearchProps {
+export interface InputSearchProps {
     startSearch?: number;
     dataService: DataService;
     onSelectItem: Function;
@@ -13,6 +13,7 @@ interface InputSearchProps {
 
 interface IndicatorControlProps {
     isShow?: boolean;
+    children?: ReactNode;
 }
 
 /**
@@ -25,13 +26,13 @@ export const InputSearch = ({
                             }: InputSearchProps) => {
     const [stateShowIndicator, setStateShowIndicator] = useState(false);
     const [isActive, setIsActive] = useState(false);
-    const [stateItems, setStateItems] = useState([]); // props.dataService.data
+    const [stateItems, setStateItems] = useState([] as object[]); // props.dataService.data
     const [value, setValue] = useState('');
-    const popupRef = useRef(document.body);
     const inputRef = useRef(null);
     useEffect(() => {
         let mounted = true;
         if (mounted && (value.length >= startSearch)) {
+            setIsActive(true);
             setStateShowIndicator(true);
             props.dataService.load(value).then((items) => {
                 setStateItems(items);
@@ -39,31 +40,37 @@ export const InputSearch = ({
             }).catch((e) => {
                 console.log('caught overload', e.message);
             });
+        } else {
+            setIsActive(false);
+            setStateShowIndicator(false);
         }
         return () => {
             mounted = false;
         }
-    }, [value]);
+    }, [value, startSearch]);
     const onChangeInput = (e: React.SyntheticEvent<HTMLElement>) => {
         setValue(e.target.value);
-    }
-    const onBlur = (e: React.FocusEvent<HTMLElement>) => {
-        // we close popup only when click out of it
-        // if (e.relatedTarget !== inputRef.current) {
-        //     setIsActive(false);
-        // }
-        // return true;
-    }
+    };
     const onFocus =(e: React.FocusEvent<HTMLElement>) => {
         setIsActive(true);
+    };
+    const onSelectItemListWrapper = (itemId:number) => {
+        setIsActive(false); // close popup
+        onSelectItem && onSelectItem(itemId);
     }
     return (
         <div
             className={['storybook-InputSearch'].join(' ')}>
-            <input ref={inputRef} placeholder="Print to search" onChange={onChangeInput} onBlur={onBlur} onFocus={onFocus} value={value}/>
-            <PopupControl ref={popupRef} isShow={isActive && (stateItems.length || stateShowIndicator)} target={inputRef}>
+            <input ref={inputRef}
+                   placeholder="Print to search"
+                   onChange={onChangeInput}
+                   onFocus={onFocus}
+                   value={value}/>
+            <PopupControl isShow={isActive && (stateItems.length || stateShowIndicator)}
+                          target={inputRef}
+                          className={'storybook-InputSearch__popup'}>
                 <IndicatorControl isShow={stateShowIndicator}/>
-                <List items={stateItems} onSelectItem={onSelectItem}/>
+                <List items={stateItems} onSelectItem={onSelectItemListWrapper}/>
             </PopupControl>
         </div>
 
@@ -86,7 +93,10 @@ const PopupControl = ({
     return (
         <>
             {props.isShow &&
-                <Popup target={props.target}>{props.children}</Popup>}
+                <Popup target={props.target}
+                       className={props.className}>
+                    {props.children}
+                </Popup>}
         </>
 
     );

@@ -5,6 +5,7 @@ interface IItem {
     id: number;
     caption: string;
 }
+
 interface ListProps {
     items: IItem[];
     onSelectItem?: Function;
@@ -13,23 +14,25 @@ interface ListProps {
 /**
  * List UI component
  */
-export const List = ({ items = [],
+export const List = ({
+                         items = [],
                          onSelectItem,
-                      }: ListProps) => {
+                     }: ListProps) => {
     // "onSelectItem(id)"
     const sendOnItemClick = (id: number) => {
-        console.log('clicked', id);
         onSelectItem && onSelectItem(id);
     }
     const listItems = items.map((item) =>
-        <div key={item.id} className='storybook-List__item' onClick={() => sendOnItemClick(item.id)}>
+        <div key={item.id} className='storybook-List__item' onClick={(e) => {
+            e.stopPropagation();
+            sendOnItemClick(item.id)}
+        }>
             {item.caption}
         </div>
     );
     return (
-        <div
-            className='storybook-List'
-        >{listItems}
+        <div className='storybook-List'>
+            {listItems}
         </div>
     );
 };

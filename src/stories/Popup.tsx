@@ -1,44 +1,49 @@
-import React from 'react';
+import React, {forwardRef, LegacyRef, Ref, useEffect, useState} from 'react';
 import './popup.css';
-interface IPosition {
-    horizontal: 'left' | 'right',
-    vertical: 'top' | 'bottom'| 'test'
-}
+import {createPortal} from "react-dom";
+type PositionString = 'left' | 'right' | 'top' | 'bottom';
+
 interface PopupProps {
     /**
      * What position with target
      */
-    position?: IPosition;
+    position?: PositionString;
     /**
      * Target of popup
      */
-    // target?: DOMRect;
+    target: Ref<ReactDOM.Container>;
+    children: React.ReactNode;
+    // ref: LegacyRef<HTMLDivElement>;
 }
 
 /**
  * Popup UI component
  */
-export const Popup = ({    position = {horizontal: 'left', vertical:'test'},
+export const Popup = ({
+                          position = 'bottom',
                           target,
-                           ...props
-                       }: PopupProps) => {
-
-    const rect = target ? target.current.getBoundingClientRect() : {
-        top : 50,
-        width: 150
-    };
-
-    // document.body
-    const popupStyle = {
-        top: rect.top + rect.height,
-        left: rect.left,
-        width: rect.width
-    }
+                          ...props
+                      }: PopupProps) => {
+     const [popupStyle, setPopupStyle] = useState({
+         top: 50,
+         left: 0,
+         width: 150
+     })
+    useEffect(() => {
+        const rect = target ? target.current.getBoundingClientRect() : popupStyle;
+        setPopupStyle({
+            top: rect.top + (position === 'bottom' ? rect.height : 0),
+            left: rect.left,
+            width: rect.width
+        });
+    }, []);
     return (
-        <div tabIndex={0}
-            className={['storybook-Popup', `storybook-Popup__position-${position?.horizontal}`, `storybook-Popup__position-${position?.vertical}`].join(' ')}
-            {...props}
-            style={popupStyle}> {props.children}
-        </div>
+        createPortal(
+            (<div tabIndex={0}
+                  {...props}
+                  className={['storybook-Popup', props.className || ''].join(' ')}
+                  style={popupStyle}> {props.children}
+            </div>), document.body
+        )
     );
 };

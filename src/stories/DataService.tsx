@@ -5,8 +5,8 @@ interface IItem {
 
 export default class DataService {
     items: IItem[];
-    protected _loadingReject: Promise.reject;
-    protected _loadingTimeOut: NodeJS.Timeout | null = null;
+    protected _loadingReject: Function | null;
+    protected _loadingTimeOut: ReturnType<typeof setTimeout> | null;
 
     constructor(length: number = 0, title: string = '') {
         this.items = [];
@@ -44,7 +44,7 @@ export default class DataService {
         const filteredItems = this.items.filter((item) => {
             return item.caption.toLowerCase().includes(filter.toLowerCase());
         });
-        if (this._loadingReject) {
+        if (this._loadingReject && this._loadingTimeOut) {
             this._loadingReject(new Error('stopped loading before new load'));
             clearTimeout(this._loadingTimeOut);
             this._loadingReject = null;

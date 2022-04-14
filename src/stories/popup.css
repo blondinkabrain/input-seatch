@@ -5,15 +5,3 @@
     box-sizing: border-box;
     background-color: white;
 }
-.storybook-Popup__position-left{
-    left: 0;
-}
-.storybook-Popup__position-right{
-    right: 0;
-}
-.storybook-Popup__position-top{
-    top: 0;
-}
-.storybook-Popup__position-bottom{
-    bottom: 0;
-}
