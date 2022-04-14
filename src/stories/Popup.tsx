@@ -1,4 +1,4 @@
-import React, {forwardRef, LegacyRef, Ref, useEffect, useState} from 'react';
+import React, {Ref, useEffect, useState} from 'react';
 import './popup.css';
 import {createPortal} from "react-dom";
 
