@@ -1,4 +1,4 @@
-import React, {Ref, useEffect, useState} from 'react';
+import React, {forwardRef, Ref, useEffect, useState} from 'react';
 import './popup.css';
 import {createPortal} from "react-dom";
 
@@ -32,7 +32,7 @@ export const Popup = ({
     useEffect(() => {
         const rect = target?.current?.getBoundingClientRect() || popupStyle;
         setPopupStyle({
-            top: rect.top + (position === 'bottom' ? rect.height : 0),
+            top: rect.top + (position === 'bottom' ? (rect.height || 150) : 0),
             left: rect.left,
             width: rect.width
         });
