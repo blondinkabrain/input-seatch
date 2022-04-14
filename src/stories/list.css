@@ -3,3 +3,9 @@
     width: 100%;
     height: inherit;
 }
+.storybook-List__item {
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

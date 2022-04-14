@@ -6,7 +6,7 @@
     align-items: center;
     position: absolute;
     width: inherit;
-    height: inherit;
+    height: 100%;
 }
 .storybook-Indicator--spinner {
     width: 200px;
