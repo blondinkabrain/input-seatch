@@ -21,9 +21,9 @@ export const List = ({
     // "onSelectItem(id)"
     const sendOnItemClick = (id: number) => {
         onSelectItem && onSelectItem(id);
-    }
+    };
     const listItems = items.map((item) =>
-        <div key={item.id} className='storybook-List__item' onClick={(e) => {
+        <div key={item.id} className='c-List__item' onClick={(e) => {
             e.stopPropagation();
             sendOnItemClick(item.id)}
         }>
@@ -31,7 +31,7 @@ export const List = ({
         </div>
     );
     return (
-        <div className='storybook-List'>
+        <div className='c-List'>
             {listItems}
         </div>
     );

@@ -1,9 +1,9 @@
 import React, {useRef, useState} from 'react';
 
-import {Popup} from "./Popup";
+import {Popup} from "../Popup";
 import './popupPage.css';
 
-export const PopupPage: React.VFC = () => {
+export const PopupPage = () => {
     return (
         <article>
             <div>

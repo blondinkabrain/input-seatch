@@ -12,10 +12,10 @@ export const Indicator = ({
                      }: IndicatorProps) => {
     return (
         <div
-            className={['storybook-Indicator'].join(' ')}
+            className={['c-Indicator'].join(' ')}
             {...props}
         >
-            <div className="storybook-Indicator--spinner">
+            <div className="c-Indicator__spinner">
             </div>
         </div>
     );

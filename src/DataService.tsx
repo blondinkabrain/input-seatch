@@ -5,7 +5,7 @@ interface IItem {
 
 export default class DataService {
     items: IItem[];
-    protected _loadingReject: Function | null;
+    protected _loadingReject: () => void;
     protected _loadingTimeOut: ReturnType<typeof setTimeout> | null;
 
     constructor(length: number = 0, title: string = '') {
@@ -40,7 +40,7 @@ export default class DataService {
     }
 
     public load(filter: string = '', timeout?: number): Promise<object[]> {
-        const resolveTimeOut = timeout ?? Math.floor(Math.random() * 3000); // ожидание до 3х секунд
+        const resolveTimeOut = timeout ?? Math.floor(Math.random() * 3000); // max ~4 seconds of waiting
         const filteredItems = this.items.filter((item) => {
             return item.caption.toLowerCase().includes(filter.toLowerCase());
         });
@@ -67,7 +67,7 @@ export default class DataService {
             if (a.caption < b.caption) {
                 return -1;
             }
-            // a должно быть равным b
+            // a equals b
             return 0;
         });
     }

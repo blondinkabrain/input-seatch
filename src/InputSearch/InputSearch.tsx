@@ -1,9 +1,9 @@
 import React, {SyntheticEvent, useEffect, useRef, useState} from 'react';
 import './inputSearch.css';
-import {Popup} from "./Popup";
-import {Indicator} from "./Indicator";
-import {List} from "./List";
-import DataService from "./DataService";
+import {Popup} from "../Popup/Popup";
+import {Indicator} from "../Indicator/Indicator";
+import {List} from "../List/List";
+import DataService from "../DataService";
 
 export interface InputSearchProps {
     /**
@@ -24,6 +24,7 @@ interface IItem {
     id: number;
     caption: string;
 }
+
 /**
  * InputSearch UI component
  */
@@ -38,11 +39,10 @@ export const InputSearch = ({
     const [value, setValue] = useState('');
     const inputRef = useRef(null);
     useEffect(() => {
-        let mounted = true;
-        if (mounted && (value.length >= startSearch)) {
+        if (value.length >= startSearch) {
             setIsShowPopup(true);
             setIsShowIndicator(true);
-            dataService.load(value).then((items ) => {
+            dataService.load(value).then((items) => {
                 setItems(items as IItem[]);
                 setIsShowIndicator(false);
             }).catch((e) => {
@@ -55,11 +55,8 @@ export const InputSearch = ({
             setIsShowIndicator(false);
             setItems([]); // remove old search data
         }
-        return () => {
-            mounted = false;
-        }
     }, [value, startSearch]);
-    const onChangeInput = (e:  React.ChangeEvent<HTMLInputElement>) => {
+    const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         setValue(e.target.value);
     };
     const onFocus = () => {
@@ -67,20 +64,20 @@ export const InputSearch = ({
     };
     const onBlur = (e: SyntheticEvent) => {
 
-        // fixMe find a way  with a ref - trouble with click on another popup
+        // fixMe find a way  with a ref - trouble with click on another inputSearch popup
         // click outside any popup closes opened popup
-        if (!e.relatedTarget?.className?.includes('storybook-Popup')) {
+        if (!e.relatedTarget?.className?.includes('c-InputSearch__popup')) {
             setIsShowPopup(false);
         }
 
     };
-    const onSelectItemListWrapper = (itemId:number) => {
+    const onSelectItemListWrapper = (itemId: number) => {
         setIsShowPopup(false); // close popup
         onSelectItem && onSelectItem(itemId);
-    }
+    };
     return (
         <div
-            className={['storybook-InputSearch'].join(' ')}>
+            className={['c-InputSearch'].join(' ')}>
             <input ref={inputRef}
                    placeholder="Print to search"
                    onChange={onChangeInput}
@@ -89,13 +86,12 @@ export const InputSearch = ({
                    value={value}/>
             <>
                 {isShowPopup && ((items.length > 0) || isShowIndicator) &&
-                    <Popup target={inputRef}
-                           className={'storybook-InputSearch__popup'}>{isShowIndicator &&
-                        <Indicator/>}
-                        <List items={items} onSelectItem={onSelectItemListWrapper}/>
-                    </Popup>}
+                <Popup target={inputRef}
+                       className='c-InputSearch__popup'>{isShowIndicator &&
+                <Indicator/>}
+                   <List items={items} onSelectItem={onSelectItemListWrapper}/>
+                </Popup>}
             </>
         </div>
-
     );
 };

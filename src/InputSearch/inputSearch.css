@@ -1,0 +1,10 @@
+.c-InputSearch{
+    width: 300px;
+}
+/* for inputSearch only*/
+.c-InputSearch__popup {
+    height: 110px; /*for 5 rows*/
+}
+.c-InputSearch__popup .c-List {
+    min-height: 50px;
+}

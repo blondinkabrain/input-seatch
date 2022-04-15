@@ -1,9 +1,9 @@
-.storybook-List{
+.c-List{
     overflow-y: auto;
     width: 100%;
     height: inherit;
 }
-.storybook-List__item {
+.c-List__item {
     cursor: pointer;
     overflow: hidden;
     text-overflow: ellipsis;

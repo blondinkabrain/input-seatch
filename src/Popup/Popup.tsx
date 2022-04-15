@@ -43,7 +43,7 @@ export const Popup = ({
                 {popupStyle &&
                     (<div tabIndex={0}
                           {...props}
-                          className={['storybook-Popup', props.className || ''].join(' ')}
+                          className={['c-Popup', props.className || ''].join(' ')}
                           style={popupStyle}> {props.children}
                     </div>)
                 }
