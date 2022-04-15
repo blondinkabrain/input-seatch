@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-
+import './inputSearchPage.css';
 import {List} from "./List";
 import {InputSearch, InputSearchProps} from "./InputSearch";
 
@@ -16,23 +16,19 @@ export const InputSearchPage: React.VFC = ({
             setValue('');
         }
     }
-    // useEffect(() => {
-    //
-    // }, [dataService.data])
     return (
         <article>
-
-
-
-            <div className='test'>
-                <InputSearch startSearch={startSearch} dataService={dataService} onSelectItem={onSelectItem}/>
+            <div className='storybook-Page__inputSearch-container'>
+                <div className='storybook-Page__inputSearch'>
+                    <InputSearch startSearch={startSearch} dataService={dataService} onSelectItem={onSelectItem}/>
+                </div>
+                <div className='storybook-Page__data'>
+                    <input placeholder='Print value and hit Enter to Add'
+                           value={value}
+                           onChange={ (e) => setValue(e.target.value)} onKeyDown={onKeyDown}/> Here is the whole data. You can simply add any more strings
+                    <List items={dataService.data}/>
+                </div>
             </div>
-            <div>
-                AllListData:
-                <input placeholder='Print and Enter to Add' value={value} onChange={ (e) => setValue(e.target.value)} onKeyDown={onKeyDown}></input>
-                <List items={dataService.data}></List>
-            </div>
-
         </article>
     );
 };

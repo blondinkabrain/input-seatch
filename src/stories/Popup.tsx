@@ -1,4 +1,4 @@
-import React, {forwardRef, Ref, useEffect, useState} from 'react';
+import React, {Ref, useEffect, useState} from 'react';
 import './popup.css';
 import {createPortal} from "react-dom";
 
@@ -12,7 +12,6 @@ interface PopupProps {
      */
     target: Ref<ReactDOM.Container>;
     children: React.ReactNode;
-    // ref: LegacyRef<HTMLDivElement>;
 }
 
 /**
@@ -23,30 +22,31 @@ export const Popup = ({
                           target,
                           ...props
                       }: PopupProps) => {
-    const [isShow, setIsShow] = useState(false); // to avoid blinking
-    const [popupStyle, setPopupStyle] = useState({
+    const [popupStyle, setPopupStyle] = useState();
+    const defaultRect = {
         top: 50,
         left: 0,
+        height: 150,
         width: 150
-    })
+    };
     useEffect(() => {
-        const rect = target?.current?.getBoundingClientRect() || popupStyle;
+        const rect = target?.current?.getBoundingClientRect() || defaultRect;
         setPopupStyle({
             top: rect.top + (position === 'bottom' ? (rect.height || 150) : 0),
             left: rect.left,
             width: rect.width
         });
-        setIsShow(true);
     }, []);
     return (
         createPortal((
             <>
-                {isShow &&
+                {popupStyle &&
                     (<div tabIndex={0}
                           {...props}
                           className={['storybook-Popup', props.className || ''].join(' ')}
                           style={popupStyle}> {props.children}
-                    </div>)}
+                    </div>)
+                }
             </>
         ), document.body)
     );
