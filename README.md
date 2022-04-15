@@ -12,7 +12,7 @@ make sure you run it under Administrator rights
 ### [you can also checkout popup testing page](http://localhost:6006/?path=/story/example-popuppage--open-popup)
 
 
-##InputSearch Task
+## InputSearch Task
 
 <details>
   <summary>Task here, click to expand</summary>
