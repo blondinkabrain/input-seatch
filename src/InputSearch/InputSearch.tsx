@@ -4,6 +4,7 @@ import { Popup } from "../Popup/Popup";
 import { Indicator } from "../Indicator/Indicator";
 import { List } from "../List/List";
 import DataService from "../DataService";
+import { debounce } from "ts-debounce";
 
 export interface InputSearchProps {
    /**
@@ -38,12 +39,12 @@ export const InputSearch = ({
    const [items, setItems] = useState([] as IItem[]); // props.dataService.data
    const [value, setValue] = useState("");
    const inputRef = useRef(null);
-   useEffect(() => {
-      if (value.length >= startSearch) {
-         setIsShowPopup(true);
-         setIsShowIndicator(true);
+
+   // debounce inputload - avoid "DDOS" by fast printing
+   const debouncedLoadRef = useRef(
+      debounce((filter: string) => {
          dataService
-            .load(value)
+            .load(filter)
             .then(items => {
                setItems(items as IItem[]);
                setIsShowIndicator(false);
@@ -53,6 +54,13 @@ export const InputSearch = ({
                   console.log("caught overload", e.message);
                }
             });
+      }, 200),
+   );
+   useEffect(() => {
+      if (value.length >= startSearch) {
+         setIsShowPopup(true);
+         setIsShowIndicator(true);
+         debouncedLoadRef.current(value);
       } else {
          setIsShowPopup(false);
          setIsShowIndicator(false);
