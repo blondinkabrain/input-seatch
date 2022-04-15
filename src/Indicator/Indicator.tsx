@@ -1,22 +1,12 @@
-import React from 'react';
-import './indicator.css';
-
-interface IndicatorProps {
-}
-
+import React from "react";
+import "./indicator.css";
 /**
  * Indicator UI component
  */
-export const Indicator = ({
-                         ...props
-                     }: IndicatorProps) => {
-    return (
-        <div
-            className={['c-Indicator'].join(' ')}
-            {...props}
-        >
-            <div className="c-Indicator__spinner">
-            </div>
-        </div>
-    );
+export const Indicator = () => {
+   return (
+      <div className="c-Indicator">
+         <div className="c-Indicator__spinner" />
+      </div>
+   );
 };
