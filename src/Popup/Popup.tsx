@@ -1,4 +1,4 @@
-import React, { Ref, useEffect, useState } from "react";
+import React, { Ref, useLayoutEffect, useState } from "react";
 import "./popup.css";
 import { createPortal } from "react-dom";
 
@@ -14,7 +14,6 @@ interface PopupProps {
    children: React.ReactNode;
    className?: string;
 }
-
 /**
  * Popup UI component
  */
@@ -25,16 +24,16 @@ export const Popup = ({
    ...props
 }: PopupProps) => {
    const [popupStyle, setPopupStyle] = useState();
-   const defaultRect = {
-      top: 50,
-      left: 0,
-      height: 150,
-      width: 150,
-   };
-   useEffect(() => {
-      const rect = target?.current?.getBoundingClientRect() || defaultRect;
+   useLayoutEffect(() => {
+      let rect;
+      try {
+         rect = target.current?.getBoundingClientRect();
+      } catch (e) {
+         throw new Error("Popup needs target to set up");
+      }
+
       setPopupStyle({
-         top: rect.top + (position === "bottom" ? rect.height || 150 : 0),
+         top: rect.top + (position === "bottom" ? rect.height : 0),
          left: rect.left,
          width: rect.width,
       });
@@ -48,7 +47,6 @@ export const Popup = ({
                className={["c-Popup", className || ""].join(" ")}
                style={popupStyle}
             >
-               {" "}
                {props.children}
             </div>
          )}

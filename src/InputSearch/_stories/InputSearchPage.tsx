@@ -31,7 +31,7 @@ export const InputSearchPage = ({
                   value={value}
                   onChange={e => setValue(e.target.value)}
                   onKeyDown={onKeyDown}
-               />{" "}
+               />
                Here is the whole data. You can simply add any more strings
                <List items={dataService.data} />
             </div>
