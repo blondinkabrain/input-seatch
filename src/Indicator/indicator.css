@@ -1,6 +1,6 @@
 .c-Indicator {
     opacity: 0.4;
-    background-color: rgba(0, 0, 0);
+    background-color: black;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,5 +14,5 @@
     flex-shrink: 0;
     transform: scale(0.2);
     background-size: cover;
-    background-image: url('../stories/assets/loading-buffering.gif');
+    background-image: url('loading-buffering.gif');
 }
