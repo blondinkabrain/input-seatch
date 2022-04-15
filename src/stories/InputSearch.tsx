@@ -1,4 +1,4 @@
-import React, {ReactNode, Ref, SyntheticEvent, useEffect, useRef, useState} from 'react';
+import React, {SyntheticEvent, useEffect, useRef, useState} from 'react';
 import './inputSearch.css';
 import {Popup} from "./Popup";
 import {Indicator} from "./Indicator";
@@ -20,11 +20,6 @@ export interface InputSearchProps {
     onSelectItem?: (id: number) => void;
 }
 
-interface IndicatorControlProps {
-    isShow: boolean;
-    children?: ReactNode;
-    target? : Ref<ReactDOM.Container>;
-}
 interface IItem {
     id: number;
     caption: string;
@@ -37,19 +32,19 @@ export const InputSearch = ({
                                 onSelectItem,
                                 dataService,
                             }: InputSearchProps) => {
-    const [stateShowIndicator, setStateShowIndicator] = useState(false);
+    const [isShowIndicator, setIsShowIndicator] = useState(false);
     const [isShowPopup, setIsShowPopup] = useState(false);
-    const [stateItems, setStateItems] = useState([] as IItem[]); // props.dataService.data
+    const [items, setItems] = useState([] as IItem[]); // props.dataService.data
     const [value, setValue] = useState('');
     const inputRef = useRef(null);
     useEffect(() => {
         let mounted = true;
         if (mounted && (value.length >= startSearch)) {
             setIsShowPopup(true);
-            setStateShowIndicator(true);
+            setIsShowIndicator(true);
             dataService.load(value).then((items ) => {
-                setStateItems(items as IItem[]);
-                setStateShowIndicator(false);
+                setItems(items as IItem[]);
+                setIsShowIndicator(false);
             }).catch((e) => {
                 if (e.message === 'stopped loading before new load') {
                     console.log('caught overload', e.message);
@@ -57,7 +52,8 @@ export const InputSearch = ({
             });
         } else {
             setIsShowPopup(false);
-            setStateShowIndicator(false);
+            setIsShowIndicator(false);
+            setItems([]); // remove old search data
         }
         return () => {
             mounted = false;
@@ -91,38 +87,15 @@ export const InputSearch = ({
                    onFocus={onFocus}
                    onBlur={onBlur}
                    value={value}/>
-            <PopupControl isShow={isShowPopup && ((stateItems.length > 0) || stateShowIndicator)}
-                          target={inputRef}
-                          className={'storybook-InputSearch__popup'}>
-                <IndicatorControl isShow={stateShowIndicator}/>
-                <List items={stateItems} onSelectItem={onSelectItemListWrapper}/>
-            </PopupControl>
+            <>
+                {isShowPopup && ((items.length > 0) || isShowIndicator) &&
+                    <Popup target={inputRef}
+                           className={'storybook-InputSearch__popup'}>{isShowIndicator &&
+                        <Indicator/>}
+                        <List items={items} onSelectItem={onSelectItemListWrapper}/>
+                    </Popup>}
+            </>
         </div>
-
-    );
-};
-const IndicatorControl = ({
-                              ...props
-                          }: IndicatorControlProps) => {
-    return (
-        <>
-            {props.isShow &&
-                <Indicator/>}
-        </>
-
-    );
-};
-const PopupControl = ({
-                          ...props
-                      }: IndicatorControlProps) => {
-    return (
-        <>
-            {props.isShow &&
-                <Popup target={props.target}
-                       className={props.className}>
-                    {props.children}
-                </Popup>}
-        </>
 
     );
 };

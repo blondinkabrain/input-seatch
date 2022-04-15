@@ -3,11 +3,11 @@ import React, {useRef, useState} from 'react';
 import {Popup} from "./Popup";
 import './popupPage.css';
 
-export const PopupPage: React.VFC = ({}) => {
+export const PopupPage: React.VFC = () => {
     return (
         <article>
             <div>
-                <OpenPopupControl></OpenPopupControl>
+                <OpenPopupControl/>
             </div>
         </article>
     );
@@ -19,10 +19,13 @@ const OpenPopupControl = () => {
         setIsShow(true);
     };
     return (
-        <div className="{storybook-OpenPopup}">
-            <button ref={buttonRef} onClick={openPopup}>click to Open Popup</button>
-            {isShow && <Popup target={buttonRef} position='bottom'>
-                <OpenPopupControl></OpenPopupControl>
+        <div className="storybook-OpenPopup">
+            <button ref={buttonRef}
+                    onClick={openPopup}
+                    style={{cursor: "pointer"}}>click to Open Popup</button>
+            {isShow && <Popup target={buttonRef}
+                              position="bottom">
+                <OpenPopupControl/>
             </Popup>}
         </div>
     );

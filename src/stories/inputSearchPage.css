@@ -1,0 +1,10 @@
+.storybook-Page__inputSearch {
+    width: 200px;
+    height: 100px;
+}
+.storybook-Page__inputSearch-container{
+    display: flex;
+}
+.storybook-Page__data{
+    border: 1px dashed #8199e5;
+}
