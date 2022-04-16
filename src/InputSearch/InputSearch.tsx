@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useEffect, useRef, useState } from "react";
+import React, { FocusEvent, useEffect, useRef, useState } from "react";
 import "./inputSearch.css";
 import { Popup } from "../Popup/Popup";
 import { Indicator } from "../Indicator/Indicator";
@@ -36,7 +36,7 @@ export const InputSearch = ({
 }: InputSearchProps) => {
    const [isShowIndicator, setIsShowIndicator] = useState(false);
    const [isShowPopup, setIsShowPopup] = useState(false);
-   const [items, setItems] = useState([] as IItem[]); // props.dataService.data
+   const [items, setItems] = useState<IItem[]>([]); // props.dataService.data
    const [value, setValue] = useState("");
    const inputRef = useRef(null);
 
@@ -73,8 +73,8 @@ export const InputSearch = ({
    const onFocus = () => {
       setIsShowPopup(true);
    };
-   const onBlur = (e: SyntheticEvent) => {
-      // fixMe find a way  with a ref - trouble with click on another inputSearch popup
+   const onBlur = (e: FocusEvent<HTMLInputElement>) => {
+      // could be with ref, but now it is enough with checking "my own" class
       // click outside any popup closes opened popup
       if (!e.relatedTarget?.className?.includes("c-InputSearch__popup")) {
          setIsShowPopup(false);

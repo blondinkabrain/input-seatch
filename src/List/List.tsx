@@ -1,35 +1,33 @@
-import React from 'react';
-import './list.css';
+import React from "react";
+import "./list.css";
 
 interface IItem {
-  id: number;
-  caption: string;
+   id: number;
+   caption: string;
 }
 
 interface ListProps {
-  items: IItem[];
-  onSelectItem?: Function;
+   items: IItem[];
+   /**
+    * Optional item click handler
+    */
+   onSelectItem?: (id: number) => void;
 }
 
 /**
  * List UI component
  */
 export const List = ({ items = [], onSelectItem }: ListProps) => {
-  // "onSelectItem(id)"
-  const sendOnItemClick = (id: number) => {
-    onSelectItem && onSelectItem(id);
-  };
-  const listItems = items.map(item => (
-    <div
-      key={item.id}
-      className="c-List__item"
-      onClick={e => {
-        e.stopPropagation();
-        sendOnItemClick(item.id);
-      }}
-    >
-      {item.caption}
-    </div>
-  ));
-  return <div className="c-List">{listItems}</div>;
+   const listItems = items.map(item => (
+      <div
+         key={item.id}
+         className="c-List__item"
+         onClick={() => {
+            onSelectItem && onSelectItem(item.id);
+         }}
+      >
+         {item.caption}
+      </div>
+   ));
+   return <div className="c-List">{listItems}</div>;
 };
