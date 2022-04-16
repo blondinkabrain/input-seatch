@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, KeyboardEvent } from "react";
 import "./inputSearchPage.css";
 import { List } from "../../List/List";
-import { InputSearch, InputSearchProps } from "../../InputSearch/InputSearch";
+import { InputSearch, InputSearchProps } from "../InputSearch";
 
 export const InputSearchPage = ({
    startSearch,

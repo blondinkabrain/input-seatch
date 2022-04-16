@@ -5,8 +5,8 @@ interface IItem {
 
 export default class DataService {
    items: IItem[];
-   protected _loadingReject: () => void;
-   protected _loadingTimeOut: ReturnType<typeof setTimeout> | null;
+   protected _loadingReject?: (e: Error) => void;
+   protected _loadingTimeOut?: ReturnType<typeof setTimeout> | null;
 
    constructor(length: number = 0, title: string = "") {
       this.items = [];
@@ -47,12 +47,12 @@ export default class DataService {
       if (this._loadingReject && this._loadingTimeOut) {
          this._loadingReject(new Error("stopped loading before new load"));
          clearTimeout(this._loadingTimeOut);
-         this._loadingReject = null;
+         this._loadingReject = undefined;
       }
       return new Promise((resolve, reject) => {
          this._loadingReject = reject;
          this._loadingTimeOut = setTimeout(() => {
-            this._loadingReject = null;
+            this._loadingReject = undefined;
             resolve(this.sort(filteredItems));
          }, resolveTimeOut);
       });
