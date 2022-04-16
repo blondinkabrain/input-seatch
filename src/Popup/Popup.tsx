@@ -44,7 +44,7 @@ export const Popup = ({
          left: rect.left,
          width: rect.width,
       });
-   }, []);
+   }, [position, target]); // unlikely be changed deps
    return createPortal(
       <>
          {popupStyle && (
