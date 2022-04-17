@@ -3,18 +3,18 @@ import "./inputSearch.css";
 import { Popup } from "../Popup/Popup";
 import { Indicator } from "../Indicator/Indicator";
 import { List } from "../List/List";
-import DataService from "../DataService";
 import { debounce } from "ts-debounce";
 
 export interface InputSearchProps {
    /**
-    * From what value.length start search in dataService
+    * From what value.length start searching data
     */
    startSearch?: number;
    /**
-    * Class for data loading and filtering
+    * load data function
+    * @param filter - search string
     */
-   dataService: DataService;
+   load: (filter: string) => Promise<IItem[]>;
    /**
     * Optional onSelectItem handler
     */
@@ -32,7 +32,7 @@ interface IItem {
 export const InputSearch = ({
    startSearch = 3,
    onSelectItem,
-   dataService,
+   load,
 }: InputSearchProps) => {
    const [isShowIndicator, setIsShowIndicator] = useState(false);
    const [isShowPopup, setIsShowPopup] = useState(false);
@@ -43,10 +43,9 @@ export const InputSearch = ({
    // debounce inputload - avoid "DDOS" by fast printing
    const debouncedLoadRef = useRef(
       debounce((filter: string) => {
-         dataService
-            .load(filter)
+         load(filter)
             .then(items => {
-               setItems(items as IItem[]);
+               setItems(items);
                setIsShowIndicator(false);
             })
             .catch(e => {
