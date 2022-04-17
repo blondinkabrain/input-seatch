@@ -2,12 +2,19 @@ import React, { useState, KeyboardEvent } from "react";
 import "./inputSearchPage.css";
 import { List } from "../../List/List";
 import { InputSearch, InputSearchProps } from "../InputSearch";
+import DataService from "../../DataService";
 
+interface InputPageProps extends InputSearchProps {
+   /**
+    * DataService provider class
+    */
+   dataService: DataService;
+}
 export const InputSearchPage = ({
    startSearch,
    dataService,
    onSelectItem,
-}: InputSearchProps) => {
+}: InputPageProps) => {
    const [value, setValue] = useState("");
    const onKeyDown = (e: KeyboardEvent) => {
       if (e.code === "Enter") {
@@ -21,7 +28,7 @@ export const InputSearchPage = ({
             <div className="storybook-Page__inputSearch">
                <InputSearch
                   startSearch={startSearch}
-                  dataService={dataService}
+                  load={dataService.load.bind(dataService)}
                   onSelectItem={onSelectItem}
                />
             </div>

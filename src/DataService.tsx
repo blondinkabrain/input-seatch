@@ -39,7 +39,7 @@ export default class DataService {
       });
    }
 
-   public load(filter: string = "", timeout?: number): Promise<object[]> {
+   public load(filter: string = "", timeout?: number): Promise<IItem[]> {
       const resolveTimeOut = timeout ?? Math.floor(Math.random() * 3000); // max ~4 seconds of waiting
       const filteredItems = this.items.filter(item => {
          return item.caption.toLowerCase().includes(filter.toLowerCase());
