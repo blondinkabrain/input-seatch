@@ -5,8 +5,8 @@ interface IItem {
 
 export default class DataService {
    items: IItem[];
-   protected _loadingReject?: (e: Error) => void;
-   protected _loadingTimeOut?: ReturnType<typeof setTimeout> | null;
+   private _loadingReject?: (e: Error) => void;
+   private _loadingTimeOut?: ReturnType<typeof setTimeout> | null;
 
    constructor(length: number = 0, title: string = "") {
       this.items = [];
