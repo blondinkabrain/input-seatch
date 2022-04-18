@@ -7,6 +7,9 @@
 ### `npm run storybook`
 
 make sure you run it under Administrator rights
+## You can also run it simpler with:
+### `npm ci`
+### `npm run storybook`
 
 ### [enjoy storybook inputSearch page](http://localhost:6006/?path=/docs/example-inputsearch--start-search)
 ### [you can also checkout popup testing page](http://localhost:6006/?path=/story/example-popuppage--open-popup)
